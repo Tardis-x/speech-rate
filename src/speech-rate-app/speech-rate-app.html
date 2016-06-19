@@ -1,13 +1,27 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+
 
 <dom-module id="speech-rate-app">
   <template>
-    <style>
+    <style include="iron-flex">
       :host {
         display: block;
       }
+
+      paper-button {
+        height: 100px;
+        width: 100px;
+      }
     </style>
-    <h2>Hello [[prop1]]</h2>
+
+    <div style="height: 500px; width: 100%;" class="horizontal center-center layout">
+      <paper-button raised><iron-icon icon="file-download"></iron-icon>No :(</paper-button>
+      <paper-button raised><iron-icon icon="file-download"></iron-icon>OKAY :|</paper-button>
+      <paper-button raised><iron-icon icon="file-download"></iron-icon>COOL :)</paper-button>
+    </div>
   </template>
 
   <script>
