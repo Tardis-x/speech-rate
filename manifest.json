@@ -1,0 +1,7 @@
+{
+  "name": "speech-rate",
+  "short_name": "speech-rate",
+  "description": "Part of Tardis-X project: Speech Rate App. Voter",
+  "start_url": "/",
+  "display": "standalone"
+}
