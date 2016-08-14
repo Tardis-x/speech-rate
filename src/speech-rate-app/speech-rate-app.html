@@ -2,7 +2,12 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
-<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../../bower_components/fullscreen-api/fullscreen-icon-button.html">
+
+<script src="../../bower_components/firebase/firebase.js"></script>
+
+<!--<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">-->
+
 
 <dom-module id="speech-rate-app">
   <template>
@@ -27,44 +32,55 @@
       }
     </style>
 
-    <firebase-app
-      name="Tardis-X"
-      api-key="AIzaSyA7SR5AFPbaEevoTPWOiKRuP0pWF-aCc0Q"
-      auth-domain="tardis-x.firebaseapp.com"
-      database-url="https://tardis-x.firebaseio.com">
-    </firebase-app>
-
-    <firebase-auth
-        id="auth"
-        app-name="Tardis-X"
-        provider="google"
-        signed-in="{{signedIn}}"
-        user="{{user}}">
-    </firebase-auth>
-
-    <firebase-document
-      path="/users/{{userId}}/notes/{{noteId}}"
-      data="{{noteData}}">
-    </firebase-document>
-
+    <fullscreen-icon-button title="fullscreen" tabindex="0"></fullscreen-icon-button>
     <div class="horizontal center-center layout">
-      <paper-button raised style="background-color: #d32F2f; color: white;">No :(</paper-button>
-      <paper-button raised>OKAY :|</paper-button>
-      <paper-button raised style="background-color: #4caf50; color: white;">COOL :)</paper-button>
+      <paper-button raised style="background-color: #d32F2f; color: white;" on-click="__voteNO">No :(</paper-button>
+      <paper-button raised on-click="__voteOK">OKAY :|</paper-button>
+      <paper-button raised style="background-color: #4caf50; color: white;" on-click="__voteYES">COOL :)</paper-button>
     </div>
   </template>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyA7SR5AFPbaEevoTPWOiKRuP0pWF-aCc0Q",
+      authDomain: "tardis-x.firebaseapp.com",
+      databaseURL: "https://tardis-x.firebaseio.com"
+    };
+    firebase.initializeApp(config);
+  </script>
 
   <script>
     Polymer({
       is: 'speech-rate-app',
 
       properties: {
-        prop1: {
+        sessionId: {
           type: String,
-          value: 'speech-rate-app',
-        },
+          value: '101'
+        }
       },
 
+      ready: function () {
+        this.votesRef = firebase.database().ref('/dev/votes/' + this.sessionId);
+      },
+
+      __vote: function (value) {
+        console.log(value);
+        this.votesRef.push(value);
+      },
+
+      __voteNO: function () {
+        this.__vote(-1);
+      },
+
+      __voteOK: function () {
+        this.__vote(0);
+      },
+
+      __voteYES: function () {
+        this.__vote(1);
+      },
     });
   </script>
 </dom-module>
