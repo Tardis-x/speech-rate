@@ -2,13 +2,23 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
-
+<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
 
 <dom-module id="speech-rate-app">
   <template>
     <style include="iron-flex">
       :host {
         display: block;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      :host > div {
+        height: 100%;
+        width: 100%;
       }
 
       paper-button {
@@ -17,16 +27,35 @@
       }
     </style>
 
-    <div style="height: 500px; width: 100%;" class="horizontal center-center layout">
-      <paper-button raised>No :(</paper-button>
+    <firebase-app
+      name="Tardis-X"
+      api-key="AIzaSyA7SR5AFPbaEevoTPWOiKRuP0pWF-aCc0Q"
+      auth-domain="tardis-x.firebaseapp.com"
+      database-url="https://tardis-x.firebaseio.com">
+    </firebase-app>
+
+    <firebase-auth
+        id="auth"
+        app-name="Tardis-X"
+        provider="google"
+        signed-in="{{signedIn}}"
+        user="{{user}}">
+    </firebase-auth>
+
+    <firebase-document
+      path="/users/{{userId}}/notes/{{noteId}}"
+      data="{{noteData}}">
+    </firebase-document>
+
+    <div class="horizontal center-center layout">
+      <paper-button raised style="background-color: #d32F2f; color: white;">No :(</paper-button>
       <paper-button raised>OKAY :|</paper-button>
-      <paper-button raised>COOL :)</paper-button>
+      <paper-button raised style="background-color: #4caf50; color: white;">COOL :)</paper-button>
     </div>
   </template>
 
   <script>
     Polymer({
-
       is: 'speech-rate-app',
 
       properties: {
